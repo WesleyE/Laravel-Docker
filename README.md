@@ -18,7 +18,7 @@ The following extensions are installed out of the box
 - opcache
 - gd
 - redis (PECL)
-- xdebug (PRECL)
+- *xdebug (PECL)*
 
 Note that xdebug is not enabled. Enable it with `RUN docker-php-ext-enable xdebug`
 
@@ -28,18 +28,21 @@ Make the following Dockerfile in your project:
 FROM php:7.0-apache
 MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 
-# Write apache config
-COPY sites.conf /etc/apache2/sites-available/site.conf
-RUN a2ensite sites.conf
-
-
 # Copy files
 WORKDIR /var/www/html/
 COPY . .
 
 ```
 
-You can overwrite the site.conf, the original contents are:
+### Overwriting Apache vhost config
+
+You can overwrite the site.conf by adding the following to your Dockerfile:
+```
+# Write apache config
+COPY sites.conf /etc/apache2/sites-available/site.conf
+RUN a2ensite sites.conf
+```
+The default contents of site.conf are:
 ```
 <VirtualHost *:80>
   DocumentRoot /var/www/html/public
