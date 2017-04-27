@@ -2,7 +2,7 @@
 Docker image for Laravel based on Apache
 
 ## Base Image
-Based on _/php:7apache
+Based on _/php:7apache, see https://hub.docker.com/_/php/
 
 ## Extensions
 The following extensions are installed out of the box
