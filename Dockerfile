@@ -2,11 +2,11 @@ FROM php:7-apache
 MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 
 # Install PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
       libicu-dev \
       libpq-dev \
       libmcrypt-dev \
-      ibfreetype6-dev \
+      libfreetype6-dev \
       libjpeg62-turbo-dev \
       libmcrypt-dev \
       libpng12-dev \
@@ -22,13 +22,12 @@ RUN apt-get update && apt-get install -y \
       pgsql \
       zip \
       opcache \
-      openssl \
       tokenizer \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install redis \
     && pecl install xdebug \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis tokenizer
 
 # Add apache config for Laravel
 COPY site.conf /etc/apache2/sites-available/site.conf
