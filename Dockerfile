@@ -19,7 +19,6 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
       intl \
-      mbstring \
       mcrypt \
       pcntl \
       pdo_mysql \
@@ -33,6 +32,10 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
     && pecl install redis \
     && pecl install xdebug \
     && docker-php-ext-enable redis tokenizer \
+
+    # Increase the PHP Memory limit to 512mb for both Apache and the CLI
+    && phpmemory_limit=512M \
+    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}\php.ini \
     
     # Cleanup
     && apt-get clean \
