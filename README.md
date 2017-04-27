@@ -1,11 +1,20 @@
-# laravel-apache
-Docker image for Laravel based on Apache
+# Laravel
+Complete Docker image for Laravel based on Apache. Configurable to only have what you need.
 
 ## Base Image
-Based on _/php:7apache, see https://hub.docker.com/_/php/
+Based on _/php:7apache and php:7, see https://hub.docker.com/_/php/
+
+## Image Types
+| Image Tag | Description                                                                        |
+|-----------|------------------------------------------------------------------------------------|
+| latest    | Basic image with Apache for Laravel Production sites                               |
+| build     | Basic CLI image with building NodeJS (stable via N), Yarn, Gulp, PHPUnit, Composer |
+| complete  | Takes the production image and adds the build tools on top                         |
+
+*Both Complete and the Latest images use the official PHP production config, the build image uses the official development config file.*
 
 ## Extensions
-The following extensions are installed out of the box
+The following extensions are installed out of the box for the production image
 
 - intl
 - mbstring
@@ -20,7 +29,7 @@ The following extensions are installed out of the box
 - redis (PECL)
 - *xdebug (PECL)*
 
-Note that xdebug is not enabled. Enable it with `RUN docker-php-ext-enable xdebug`
+Note that xdebug is not enabled in the production (latest) build. Enable it with `RUN docker-php-ext-enable xdebug`. Xdebug is enabled for both the complete and build versions.
 
 ## Using this image
 Make the following Dockerfile in your project:
