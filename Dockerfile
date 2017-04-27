@@ -3,6 +3,8 @@ MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 
 # Install PHP extensions
 RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
+      
+      # Install libs for building PHP exts
       libicu-dev \
       libpq-dev \
       libmcrypt-dev \
@@ -10,7 +12,10 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
       libjpeg62-turbo-dev \
       libmcrypt-dev \
       libpng12-dev \
+      unzip \
     && rm -r /var/lib/apt/lists/* \
+    
+    # Setup PHP exts
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
       intl \
@@ -27,7 +32,11 @@ RUN apt-get update -yqq && apt-get install -yqq --no-install-recommends \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install redis \
     && pecl install xdebug \
-    && docker-php-ext-enable redis tokenizer
+    && docker-php-ext-enable redis tokenizer \
+    
+    # Cleanup
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add apache config for Laravel
 COPY site.conf /etc/apache2/sites-available/site.conf
