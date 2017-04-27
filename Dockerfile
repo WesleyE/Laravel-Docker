@@ -1,4 +1,4 @@
-FROM php:7apache
+FROM php:7-apache
 MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 
 # Install PHP extensions
