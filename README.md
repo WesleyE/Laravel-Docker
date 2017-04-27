@@ -25,7 +25,7 @@ Note that xdebug is not enabled. Enable it with `RUN docker-php-ext-enable xdebu
 ## Using this image
 Make the following Dockerfile in your project:
 ```
-FROM php:7.0-apache
+FROM wesleyelfring/laravel-apache:latest
 MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 
 # Copy files
