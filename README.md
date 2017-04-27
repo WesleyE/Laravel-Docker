@@ -50,8 +50,7 @@ The default contents of site.conf are:
   <Directory /var/www/html/public>
     AllowOverride All
   </Directory>
-
-  ErrorLog /var/log/apache2/error.log
-  CustomLog /var/log/apache2/access.log combined
 </VirtualHost>
 ```
+
+*Keep in mind that you might want to log to stdout and stderr to see the logs in Docker. In that case, do not add log statements in your Apache config*
