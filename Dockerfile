@@ -28,8 +28,9 @@ RUN apt-get update && apt-get install -y \
     && pecl install xdebug \
     && docker-php-ext-enable redis
 
-# Put apache config for Laravel
-RUN a2dissite 000-default.conf && a2enmod rewrite
+# Add apache config for Laravel
+COPY site.conf /etc/apache2/sites-available/site.conf
+RUN a2dissite 000-default.conf && a2ensite site.conf && a2enmod rewrite
 
 # Change uid and gid of apache to docker user uid/gid
 RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
