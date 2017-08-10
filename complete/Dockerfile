@@ -6,10 +6,7 @@ COPY ./php.ini /usr/local/etc/php/
 
 # Install, start with Yarn and NodeJS repo keys
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add - \
-    && echo "deb http://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && echo 'deb http://deb.nodesource.com/node_7.x jessie main' > /etc/apt/sources.list.d/nodesource.list \
-    && echo 'deb-src http://deb.nodesource.com/node_7.x jessie main' >> /etc/apt/sources.list.d/nodesource.list \
+    && curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
 
