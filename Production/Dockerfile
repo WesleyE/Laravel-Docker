@@ -16,6 +16,8 @@ RUN apt-get update -yqq \
         libmcrypt-dev \
         libpng12-dev \
         unzip \
+        nano \
+        mysql-client\
     && rm -r /var/lib/apt/lists/* \
 
     # Setup PHP exts
