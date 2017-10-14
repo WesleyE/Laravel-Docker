@@ -5,7 +5,8 @@ MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 COPY ./php.ini /usr/local/etc/php/
 
 # Install Apt transport for node/yarn repo's
-RUN apt-get install apt-transport-https
+RUN apt-get update -yqq \
+    && apt-get install apt-transport-https ca-certificates
 
 # Install, start with Yarn and NodeJS repo keys
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
