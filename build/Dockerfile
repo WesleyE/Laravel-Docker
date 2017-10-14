@@ -4,6 +4,9 @@ MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
 # Copy the PHP configuration file
 COPY ./php.ini /usr/local/etc/php/
 
+# Install Apt transport for node/yarn repo's
+RUN apt-get install apt-transport-https
+
 # Install, start with Yarn and NodeJS repo keys
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
@@ -53,7 +56,7 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
 # Configure PHP
 RUN phpmemory_limit=1024M \
     # Increase the PHP Memory limit to 1GB
-    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini
+    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini \
 
     # Install Composer
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
