@@ -17,7 +17,7 @@ RUN apt-get update -yqq \
         libpng12-dev \
         unzip \
         nano \
-        mysql-client\
+        mysql-client \
     && rm -r /var/lib/apt/lists/*
 
     # Setup PHP exts
@@ -45,7 +45,13 @@ RUN phpmemory_limit=512M \
 
 # Cleanup
 RUN apt-get clean \
-    && apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) \
+    && apt-get remove --purge -yyq libicu-dev \
+        libpq-dev \
+        libmcrypt-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng12-dev \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add apache and php config for Laravel
