@@ -6,7 +6,8 @@ COPY ./php.ini /usr/local/etc/php/
 
 # Install, start with Yarn and NodeJS repo keys
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
-    && curl -sL https://deb.nodesource.com/setup_8.x | bash - \
+    && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
+    && curl -sL https://deb.nodesource.com/setup_6.x | bash - \
     && apt-get update -yqq \
     && apt-get install -yqq --no-install-recommends \
 
@@ -30,8 +31,10 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
         wget \
         nodejs \
         yarn \
-    && rm -r /var/lib/apt/lists/* \
-    && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && rm -r /var/lib/apt/lists/*
+
+# Install PHP extensions
+RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
         intl \
         mcrypt \
@@ -45,22 +48,23 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install redis \
     && pecl install xdebug \
-    && docker-php-ext-enable redis xdebug \
+    && docker-php-ext-enable redis xdebug
 
+# Configure PHP
+RUN phpmemory_limit=1024M \
     # Increase the PHP Memory limit to 1GB
-    && phpmemory_limit=1024M \
-    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini \
+    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini
 
     # Install Composer
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
 
     # Install PHPUnit
     && wget https://phar.phpunit.de/phpunit.phar \
-    && chmod +x phpunit.phar && mv phpunit.phar /usr/local/bin/phpunit \
+    && chmod +x phpunit.phar && mv phpunit.phar /usr/local/bin/phpunit
 
-    # Install Global NPM packages
-    && npm install -g n && n stable && npm install -g npm gulp \
+# Install Global NPM packages
+RUN npm install -g n && n stable && npm install -g npm gulp
 
-    # Cleanup
-    && apt-get clean \
+# Cleanup
+RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
