@@ -45,6 +45,7 @@ RUN phpmemory_limit=512M \
 
 # Cleanup
 RUN apt-get clean \
+    && apt-get remove --purge -y $BUILD_PACKAGES $(apt-mark showauto) \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Add apache and php config for Laravel
