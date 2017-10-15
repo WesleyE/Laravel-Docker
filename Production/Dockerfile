@@ -18,10 +18,8 @@ RUN apt-get update -yqq \
         unzip \
         nano \
         mysql-client \
-    && rm -r /var/lib/apt/lists/*
-
-    # Setup PHP exts
-RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    # Install PHP Exts
+    && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
         intl \
         mcrypt \
@@ -35,16 +33,8 @@ RUN docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install -j$(nproc) gd \
     && pecl install redis \
     && pecl install xdebug \
-    && docker-php-ext-enable redis
-
-# Configure PHP
-
-RUN phpmemory_limit=512M \
-    # Increase the PHP Memory limit to 512mb for both Apache and the CLI
-    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini 
-
-# Cleanup
-RUN apt-get clean \
+    && docker-php-ext-enable redis \
+    # Remove dev packages
     && apt-get remove --purge -yyq libicu-dev \
         libpq-dev \
         libmcrypt-dev \
@@ -52,7 +42,13 @@ RUN apt-get clean \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    && rm -r /var/lib/apt/lists/*
+
+# Configure PHP
+
+RUN phpmemory_limit=512M \
+    # Increase the PHP Memory limit to 512mb for both Apache and the CLI
+    && sed -i 's/memory_limit = .*/memory_limit = '${phpmemory_limit}'/' ${PHP_INI_DIR}/php.ini 
 
 # Add apache and php config for Laravel
 COPY ./site.conf /etc/apache2/sites-available/site.conf
