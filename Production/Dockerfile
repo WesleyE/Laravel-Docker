@@ -1,8 +1,12 @@
 FROM php:7-apache
-MAINTAINER Wesley Elfring <hi@wesleyelfring.nl>
+LABEL maintainer="Wesley Elfring <hi@wesleyelfring.nl>"
 
 # Copy the PHP configuration file
 COPY ./php.ini /usr/local/etc/php/
+
+# Install Apt transport for node/yarn repo's
+RUN apt-get update -yqq \
+    && apt-get -yqq install apt-transport-https ca-certificates wget gnupg
 
 # Install PHP extensions
 RUN apt-get update -yqq \
@@ -22,7 +26,6 @@ RUN apt-get update -yqq \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
         intl \
-        mcrypt \
         pcntl \
         pdo_mysql \
         pdo_pgsql \

@@ -18,7 +18,6 @@ The following extensions are installed out of the box for the production image
 
 - intl
 - mbstring
-- mcrypt
 - pcntl
 - pdo_mysql
 - pdo_pgsql
