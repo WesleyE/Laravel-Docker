@@ -14,7 +14,7 @@ RUN apt-get update -yqq \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
         unzip \
         nano \
         mysql-client \
@@ -41,7 +41,7 @@ RUN apt-get update -yqq \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libpng-dev \
     && rm -r /var/lib/apt/lists/*
 
 # Configure PHP
