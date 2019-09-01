@@ -21,7 +21,7 @@ RUN apt-get update -yqq \
         libpng-dev \
         unzip \
         nano \
-        mysql-client \
+        mariadb-client \
     # Install PHP Exts
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-install \
