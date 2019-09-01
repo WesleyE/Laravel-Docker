@@ -25,7 +25,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
         # Install Build tools
         build-essential \
         nano \
-        mysql-client \
+        mariadb-client \
         apt-utils \
         git \
         xvfb \
