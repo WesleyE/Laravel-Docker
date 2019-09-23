@@ -19,6 +19,7 @@ RUN apt-get update -yqq \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
+        libzip-dev \
         unzip \
         nano \
         mariadb-client \
