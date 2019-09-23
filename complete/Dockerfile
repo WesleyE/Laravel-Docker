@@ -25,6 +25,7 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng-dev \
+        libzip-dev \
         # Install Build tools
         build-essential \
         nano \
